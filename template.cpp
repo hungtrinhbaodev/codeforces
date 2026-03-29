@@ -41,6 +41,13 @@ std::vector<std::pair<T, T>> _read_pairs(int size) {
     return inputs;
 }
 
+template<typename T>
+T _read_custom(std::function<void(T&)> read_func) {
+    T input;
+    read_func(input);
+    return input;
+}
+
 std::vector<std::vector<int>> _read_adjusts(int num_node, int num_adjust, int minus_base = 0) {
     std::vector<std::vector<int>> adjusts(num_node);
     while(num_adjust--) {
