@@ -1,0 +1,2 @@
+@Numeric
+- Array with n element < m if n > m always has case that some subarray of n has sum all element % m == 0.

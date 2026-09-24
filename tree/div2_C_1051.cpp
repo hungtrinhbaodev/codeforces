@@ -85,7 +85,7 @@ struct Node {
     std::vector<int> ordered_nodes;
     int size;
     int offset;
-};
+};  
 
 bool is_leaf_node(std::vector<std::vector<Adjust>>& adjusts, int cur, int parent) {
     return adjusts[cur].size() == 1 && adjusts[cur][0].adjust_node == parent;

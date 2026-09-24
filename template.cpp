@@ -2,7 +2,12 @@
 #include <vector>
 #include <queue>
 #include <stack>
+#include <set>
+#include <map>
 #include <functional>
+#include <stdexcept>
+#include <algorithm>
+#include <chrono>
 #define ll long long int
 #define infinity -1
 
@@ -67,7 +72,36 @@ void _prints(std::vector<T>& inputs, std::function<void(const T&)> func) {
     }
 }
 
-// ------------------------ excution context field ---------------------------
+template<typename T>
+void _printsln(std::vector<T> &inputs, std::function<void(const T&)> func) {
+    for (int i = 0; i < inputs.size(); i++) {
+        func(inputs[i]);
+    }
+    std::cout << std::endl;
+}
+
+template<typename T>
+void _println(T value) {
+    std::cout << value << std::endl;
+}
+
+template<typename T>
+void _print(T value) {
+    std::cout << value << " ";
+}
+
+ll now() {
+    // Get the current time point from the system clock
+    auto now = std::chrono::system_clock::now();
+
+    // Convert the time point to a duration since the epoch
+    auto duration = now.time_since_epoch();
+
+    // Cast the duration into milliseconds and extract the count
+    return std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+}
+
+// ------------------------ excution contest field ---------------------------
 
 int main() {
     int t = _read<int>();
@@ -78,5 +112,5 @@ int main() {
 }
 
 /**
- * link context: https://codeforces.com/contest/...
+ * link contest: https://codeforces.com/contest/...
  */
