@@ -1,0 +1,177 @@
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <stack>
+#include <set>
+#include <map>
+#include <functional>
+#include <stdexcept>
+#include <algorithm>
+#include <chrono>
+#define ll long long int
+#define infinity -1
+
+// ------------------------ utils field ---------------------------
+
+template<typename T>
+T _read() {
+    T input;
+    std::cin >> input;
+    return input;
+}
+
+template<typename T>
+std::vector<T> _reads(int size) {
+    std::vector<T> inputs;
+    T input;
+    while (size--) {
+        inputs.push_back(_read<T>());
+    }
+    return inputs;
+}
+
+template<typename T>
+std::pair<T, T> _read_pair() {
+    T a, b;
+    std::cin >> a >> b;
+    return {a, b};
+}
+
+template<typename T>
+std::vector<std::pair<T, T>> _read_pairs(int size) {
+    std::vector<std::pair<T, T>> inputs;
+    while(--size) {
+        inputs.push_back(_read_pair<T>());
+    }
+    return inputs;
+}
+
+template<typename T>
+T _read_custom(std::function<void(T&)> read_func) {
+    T input;
+    read_func(input);
+    return input;
+}
+
+std::vector<std::vector<int>> _read_adjusts(int num_node, int num_adjust, int minus_base = 0) {
+    std::vector<std::vector<int>> adjusts(num_node);
+    while(num_adjust--) {
+        auto pair = _read_pair<int>();
+        pair.first -= minus_base;
+        pair.second -= minus_base;
+        adjusts[pair.first].push_back(pair.second);
+        adjusts[pair.second].push_back(pair.first);
+    }
+    return adjusts;
+} 
+
+template<typename T>
+void _prints(std::vector<T> &inputs, std::function<void(const T&)> func) {
+    for (int i = 0; i < inputs.size(); i++) {
+        func(inputs[i]);
+    }
+}
+
+template<typename T>
+void _printsln(std::vector<T> &inputs, std::function<void(const T&)> func) {
+    for (int i = 0; i < inputs.size(); i++) {
+        func(inputs[i]);
+    }
+    std::cout << std::endl;
+}
+
+template<typename T>
+void _println(T value) {
+    std::cout << value << std::endl;
+}
+
+template<typename T>
+void _print(T value) {
+    std::cout << value << " ";
+}
+
+ll now() {
+    // Get the current time point from the system clock
+    auto now = std::chrono::system_clock::now();
+
+    // Convert the time point to a duration since the epoch
+    auto duration = now.time_since_epoch();
+
+    // Cast the duration into milliseconds and extract the count
+    return std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
+}
+
+// ------------------------ excution contest field ---------------------------
+
+void per(std::vector<int> &arr, int arr_size, int n, int cur, std::vector<std::vector<int>> &res) {
+    if (cur >= arr_size) return;
+    for (int i = 1; i < n; i++) {
+        arr[cur] = i;
+        per(arr, arr_size, n, cur + 1, res);
+        if (cur == arr_size - 1) {
+            bool is_valid = true;
+            for (int j = 0; j < arr_size; j++) {
+                for (int k = j; k < arr_size; k++) {
+                    int sum = 0;
+                    for (int h = j; h <= k; h++) {
+                        sum += arr[h];
+                    }
+                    if (sum % n == 0) {
+                        is_valid = false;
+                        break;
+                    }
+                }
+                if (!is_valid) {
+                    break;
+                }
+            }
+            if (is_valid) {
+                res.push_back(arr);
+            }
+        }
+    }
+}
+
+int main() {
+
+    int t = _read<int>();
+    while(t--) {
+
+        int n = _read<int>(), k = _read<int>(), m = _read<int>();
+        if (k >  m) {
+            _println<std::string>("NO");
+            continue;
+        }
+        std::vector<int> res;
+        for (int i = 0; i < n; i++) {
+            if (i % k == 0) {
+                res.push_back(m - k + 1);
+            }
+            else {
+                res.push_back(1);
+            }
+        }
+        _println<std::string>("YES");
+        _printsln<int>(res, [] (int a) {
+            std::cout << a << " ";
+        });
+    }
+
+    // int n = 5;
+    // int arr_size = 4;
+    // std::vector<int> arr(arr_size);
+    // std::vector<std::vector<int>> res;
+    // per(arr, arr_size, n, 0, res);
+    // _printsln<std::vector<int>>(res, [] (std::vector<int> arr) {
+    //     _printsln<int>(arr, [] (const int &a) {
+    //         std::cout << a << "; ";
+    //     });
+    // });
+    
+    return 0;
+}
+
+
+/**
+ * link contest: https://codeforces.com/contest/2247/problem/B
+ */
